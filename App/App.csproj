@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommandLineArgumentsParser" Version="3.0.19" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\InputPlugins\InputPlugin\InputPlugin.csproj" />
     <ProjectReference Include="..\OutputPlugins\OutputPlugin\OutputPlugin.csproj" />
   </ItemGroup>
