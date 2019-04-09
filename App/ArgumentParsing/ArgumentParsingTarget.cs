@@ -17,7 +17,7 @@ namespace App
             Description = Running_Modes_Helper)]
         public RunningMode RunningMode;
 
-        [SwitchArgument('h', "help", true, Description = "Information on invoking app.")]
+        [SwitchArgument('u', "usage", true, Description = "Information on invoking app.")]
         public bool Help;
     }
 }
