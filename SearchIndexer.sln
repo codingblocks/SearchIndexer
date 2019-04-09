@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App", "SearchIndexerApp\App.csproj", "{AE4FE36C-AAEA-4E55-AD8C-DAE7185BE567}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CF24010D-355E-43DA-A963-6615CE860D28}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inputs", "Inputs", "{FC548FFF-F825-43C5-877B-1536B6A78A2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InputPlugin", "InputPlugins\InputPlugin\InputPlugin.csproj", "{913C6BBA-3E53-44CE-8CFF-D2E4E21994CE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodcastInputPlugin", "InputPlugins\PodcastInputPlugin\PodcastInputPlugin.csproj", "{15303F94-9381-4663-A45C-13F728E3D1B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Outputs", "Outputs", "{154D82A5-F30F-4AAA-B430-AFC4B3BA4BEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutputPlugin", "OutputPlugins\OutputPlugin\OutputPlugin.csproj", "{D0D0BBEB-CCE4-4A96-A96E-9524B861BA1A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElasticsearchOutputPlugin", "OutputPlugins\ElasticsearchOutputPlugin\ElasticsearchOutputPlugin.csproj", "{E364690A-B576-446E-B066-6E57BBE32E9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE4FE36C-AAEA-4E55-AD8C-DAE7185BE567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE4FE36C-AAEA-4E55-AD8C-DAE7185BE567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE4FE36C-AAEA-4E55-AD8C-DAE7185BE567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE4FE36C-AAEA-4E55-AD8C-DAE7185BE567}.Release|Any CPU.Build.0 = Release|Any CPU
+		{913C6BBA-3E53-44CE-8CFF-D2E4E21994CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{913C6BBA-3E53-44CE-8CFF-D2E4E21994CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{913C6BBA-3E53-44CE-8CFF-D2E4E21994CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{913C6BBA-3E53-44CE-8CFF-D2E4E21994CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15303F94-9381-4663-A45C-13F728E3D1B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15303F94-9381-4663-A45C-13F728E3D1B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15303F94-9381-4663-A45C-13F728E3D1B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15303F94-9381-4663-A45C-13F728E3D1B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0D0BBEB-CCE4-4A96-A96E-9524B861BA1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0D0BBEB-CCE4-4A96-A96E-9524B861BA1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0D0BBEB-CCE4-4A96-A96E-9524B861BA1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0D0BBEB-CCE4-4A96-A96E-9524B861BA1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E364690A-B576-446E-B066-6E57BBE32E9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E364690A-B576-446E-B066-6E57BBE32E9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E364690A-B576-446E-B066-6E57BBE32E9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E364690A-B576-446E-B066-6E57BBE32E9B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{913C6BBA-3E53-44CE-8CFF-D2E4E21994CE} = {FC548FFF-F825-43C5-877B-1536B6A78A2C}
+		{15303F94-9381-4663-A45C-13F728E3D1B2} = {FC548FFF-F825-43C5-877B-1536B6A78A2C}
+		{D0D0BBEB-CCE4-4A96-A96E-9524B861BA1A} = {154D82A5-F30F-4AAA-B430-AFC4B3BA4BEE}
+		{E364690A-B576-446E-B066-6E57BBE32E9B} = {154D82A5-F30F-4AAA-B430-AFC4B3BA4BEE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {44B05C06-CED4-41AB-BF57-9670CA8E1E00}
+	EndGlobalSection
+EndGlobal
