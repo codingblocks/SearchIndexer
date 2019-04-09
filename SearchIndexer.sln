@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App", "SearchIndexerApp\App.csproj", "{AE4FE36C-AAEA-4E55-AD8C-DAE7185BE567}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App", "App\App.csproj", "{AE4FE36C-AAEA-4E55-AD8C-DAE7185BE567}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CF24010D-355E-43DA-A963-6615CE860D28}"
 	ProjectSection(SolutionItems) = preProject
