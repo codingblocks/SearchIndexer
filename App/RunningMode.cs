@@ -1,4 +1,4 @@
-﻿namespace App
+﻿namespace SearchIndexer.App
 {
     public enum RunningMode
     {
