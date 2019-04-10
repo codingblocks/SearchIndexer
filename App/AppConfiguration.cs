@@ -16,7 +16,11 @@ namespace SearchIndexer.App
         internal ServiceProvider ConfigureServiceProvider()
         {
             var serviceProvider = new ServiceCollection()
-                .AddLogging(lb => lb.AddConsole())
+                .AddLogging(lb =>
+                {
+                    lb.AddConsole();
+                    lb.AddDebug();
+                })
                 .Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Debug) // TODO Configify me
                 .AddTransient<App>()
                 .AddSingleton<ICommandArguments>(x => (new ArgumentParsingService()).Parse(_args))
