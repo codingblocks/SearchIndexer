@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace App.ArgumentParsing
+namespace SearchIndexer.App.ArgumentParsing
 {
     public class ArgumentParsingService
     {
@@ -18,13 +16,16 @@ namespace App.ArgumentParsing
             var parsedParameters = new ArgumentParsingTarget();
             _parser.ExtractArgumentAttributes(parsedParameters);
 
-            if (args.Length == 0)
+            try
             {
-                ShowUsage();
-                throw new Exception("Arguments must be provided on application invoke.");
+                _parser.ParseCommandLine(args);
             }
-
-            _parser.ParseCommandLine(args);
+            catch(Exception ex)
+            {
+                Console.WriteLine("Unable to parse command line arguments. See usage and original exception below.");
+                ShowUsage();
+                Console.WriteLine(ex);
+            }
 
             return parsedParameters;
         }
