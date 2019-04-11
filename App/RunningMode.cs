@@ -2,6 +2,7 @@
 {
     public enum RunningMode
     {
+        None,
         Get,
         Create,
         Update,

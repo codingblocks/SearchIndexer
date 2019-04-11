@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using Microsoft.Extensions.Logging;
 
 namespace SearchIndexer.App
 {
@@ -19,25 +20,30 @@ namespace SearchIndexer.App
             switch (_parsedArguments.RunningMode)
             {
                 case RunningMode.Create:
-                    {
-                        _logger.LogInformation("Doing some create-y stuff");
-                        break;
-                    }
+                {
+                    _logger.LogInformation("Doing some create-y stuff");
+                    break;
+                }
                 case RunningMode.Delete:
-                    {
-                        _logger.LogInformation("Doing some delete-y stuff");
-                        break;
-                    }
+                {
+                    _logger.LogInformation("Doing some delete-y stuff");
+                    break;
+                }
                 case RunningMode.Get:
-                    {
-                        _logger.LogInformation("Doing some get-y stuff");
-                        break;
-                    }
+                {
+                    _logger.LogInformation("Doing some get-y stuff");
+                    break;
+                }
                 case RunningMode.Update:
-                    {
-                        _logger.LogInformation("Doing some update-y stuff");
-                        break;
-                    }
+                {
+                    _logger.LogInformation("Doing some update-y stuff");
+                    break;
+                }
+                case RunningMode.None:
+                {
+                    _logger.LogError("No running mode was provided.");
+                    throw new ArgumentNullException(nameof(_parsedArguments.RunningMode));
+                }
                 // anything else?
                 default:
                     {
