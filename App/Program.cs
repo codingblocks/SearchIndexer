@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SearchIndexer.App
 {
@@ -21,6 +22,8 @@ namespace SearchIndexer.App
         private static void Execute()
         {
             _serviceProvider.GetService<App>().Run();
+            Console.WriteLine("Press any key to terminate application.");
+            Console.ReadKey();
         }
 
     }
