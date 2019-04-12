@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CommandLine;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using SearchIndexer.App.ArgumentParsing;
+using SearchIndexer.App.Options;
+using SearchIndexer.Inputs.InputPlugin;
+using SearchIndexer.Inputs.PodcastInputPlugin;
 
 namespace SearchIndexer.App
 {
@@ -23,9 +26,9 @@ namespace SearchIndexer.App
                 })
                 .Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Debug) // TODO Configify me
                 .AddTransient<App>()
-                .AddSingleton<ICommandArguments>(x => (new ArgumentParsingService()).Parse(_args))
+                .AddTransient<IDocumentProvider, PodcastDocumentProvider>() // TODO config based
+                .AddSingleton<ParserResult<GetDocumentsOptions>>(Parser.Default.ParseArguments<GetDocumentsOptions>(_args)) // TODO Hard-Coded 3p, wrap me!
                 .BuildServiceProvider();
-
             return serviceProvider;
         }
     }

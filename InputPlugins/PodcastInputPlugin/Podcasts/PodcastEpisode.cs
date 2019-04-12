@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Podcasts
+namespace SearchIndexer.Inputs.PodcastInputPlugin.Podcasts
 {
     public class PodcastEpisode : ISerializable
     {

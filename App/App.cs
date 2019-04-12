@@ -1,56 +1,33 @@
-﻿using System;
+﻿using CommandLine;
 using Microsoft.Extensions.Logging;
+using SearchIndexer.App.Options;
+using SearchIndexer.Inputs.InputPlugin;
+using System.Linq;
 
 namespace SearchIndexer.App
 {
     public class App
     {
-        private ILogger _logger;
-        private ICommandArguments _parsedArguments;
+        private ILogger<App> Logger { get; }
+        private IDocumentProvider DocumentProvider { get; }
+        private ParserResult<GetDocumentsOptions> Options { get; }
 
-        public App(ILogger<App> logger, ICommandArguments parsedArguments)
+        public App(ILogger<App> logger, IDocumentProvider documentProvider, ParserResult<GetDocumentsOptions> options) // eventually , IIndexService indexService
         {
-            _logger = logger;
-            _parsedArguments = parsedArguments;
+            Logger = logger;
+            DocumentProvider = documentProvider;
+            Options = options;
         }
 
         public void Run()
         {
-            _logger.LogInformation("Application is running");
-            switch (_parsedArguments.RunningMode)
-            {
-                case RunningMode.Create:
-                {
-                    _logger.LogInformation("Doing some create-y stuff");
-                    break;
-                }
-                case RunningMode.Delete:
-                {
-                    _logger.LogInformation("Doing some delete-y stuff");
-                    break;
-                }
-                case RunningMode.Get:
-                {
-                    _logger.LogInformation("Doing some get-y stuff");
-                    break;
-                }
-                case RunningMode.Update:
-                {
-                    _logger.LogInformation("Doing some update-y stuff");
-                    break;
-                }
-                case RunningMode.None:
-                {
-                    _logger.LogError("No running mode was provided.");
-                    throw new ArgumentNullException(nameof(_parsedArguments.RunningMode));
-                }
-                // anything else?
-                default:
-                    {
-                        _logger.LogInformation("This should never happen.");
-                        break;
-                    }
-            }
+            Options.MapResult(
+            (GetDocumentsOptions options) => {
+                var documents = DocumentProvider.GetDocuments(options);
+                Logger.LogInformation($"Got {documents.Count()} document(s) found");
+                return 0;
+            },
+            errs => 1);
         }
     }
 }

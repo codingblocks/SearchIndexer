@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SearchIndexer.OutputPlugin
+namespace SearchIndexer.Outputs.OutputPlugin
 {
     public interface IIndexService
     {
