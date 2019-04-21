@@ -11,7 +11,7 @@ namespace SearchIndexer.App.Commands
         {
             [Option('e', "endpoint", Required = true, HelpText = "Full url of the indexer endpoint")]
             public string IndexerEndpoint { get; set; }
-            [Option('n', "name", Required = true, HelpText = "Name of the index to create")]
+            [Option('n', "name", Required = true, HelpText = "Name of the index to delete")]
             public string IndexName { get; set; }
         }
 

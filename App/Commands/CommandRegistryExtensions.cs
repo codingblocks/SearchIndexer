@@ -14,8 +14,9 @@ namespace SearchIndexer.App.Commands
                 .AddTransient<CreateIndexCommand>()
                 .AddTransient<GetDocumentsCommand>()
                 .AddTransient<DeleteIndexCommand>()
+                .AddTransient<IndexExistsCommand>()
                 // #2: Telling Command line parser about it
-                .AddSingleton<ParserResult<object>>(Parser.Default.ParseArguments<GetDocumentsCommand.Options, CreateIndexCommand.Options, DeleteIndexCommand.Options>(args));
+                .AddSingleton<ParserResult<object>>(Parser.Default.ParseArguments<GetDocumentsCommand.Options, CreateIndexCommand.Options, DeleteIndexCommand.Options, IndexExistsCommand.Options>(args));
         }
 
         public static int Execute(this ParserResult<object> options, IServiceProvider provider)
@@ -30,6 +31,7 @@ namespace SearchIndexer.App.Commands
                 (GetDocumentsCommand.Options o) => Execute<GetDocumentsCommand, GetDocumentsCommand.Options>(o),
                 (CreateIndexCommand.Options o) => Execute<CreateIndexCommand, CreateIndexCommand.Options>(o),
                 (DeleteIndexCommand.Options o) => Execute<DeleteIndexCommand, DeleteIndexCommand.Options>(o),
+                (IndexExistsCommand.Options o) => Execute<IndexExistsCommand, IndexExistsCommand.Options>(o),
                 errs => 1
             );
         }

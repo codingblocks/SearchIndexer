@@ -1,5 +1,4 @@
-﻿using CommandLine;
-using ElasticsearchOutputPlugin;
+﻿using ElasticsearchOutputPlugin;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SearchIndexer.App.Commands;
@@ -28,8 +27,8 @@ namespace SearchIndexer.App
                 })
                 .Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Debug) // TODO Configify me
                 .AddTransient<App>()
-                .AddTransient<IDocumentProvider, PodcastDocumentProvider>() // TODO config based
-                .AddTransient<IIndexService, ElasticsearchIndexService>() // TODO config based
+                .AddTransient<IDocumentProvider, PodcastDocumentProvider>() // TODO Configify me
+                .AddTransient<IIndexService, ElasticsearchIndexService>() // TODO Configify me
                 .ConfigureCommands(_args)
                 .BuildServiceProvider();
             return serviceProvider;

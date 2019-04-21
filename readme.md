@@ -25,6 +25,7 @@ Settings that are specific to an input or output _should_ (TODO, for example: se
 # information about the loading and indexer are done in configuration
 dotnet ./App.dll create-index -e "http://localhost:9200" -n podcasts -f "C:\Users\me\Projects\Courses\Elasticsearch\YouTube\docker\podcasts.json"
 dotnet ./App.dll delete-index -e "http://localhost:9200" -n podcasts
+dotnet ./App.dll index-exists -e "http://localhost:9200" -n podcasts
 dotnet ./App.dll get-documents
 dotnet ./App.dll update-documents
 ```

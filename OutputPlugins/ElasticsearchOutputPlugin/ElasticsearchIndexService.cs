@@ -51,9 +51,7 @@ namespace ElasticsearchOutputPlugin
 
         public bool DeleteIndex(IIndexDeleteRequest definition)
         {
-            var node = new Uri(definition.IndexerEndpoint);
-            var settings = new ConnectionSettings(node);
-            var client = new ElasticClient(settings);
+            var client = CreateClient(definition.IndexerEndpoint);
             var existingIndex = Indices.Index(definition.IndexName);
             if (existingIndex != null)
             {
@@ -75,9 +73,21 @@ namespace ElasticsearchOutputPlugin
             return false;
         }
 
-        public TIndexResult GetIndex<TGetIndexDefinition, TIndexResult>(TGetIndexDefinition definition)
+        public bool IndexExists(SearchIndexer.Outputs.OutputPlugin.IIndexExistsRequest definition)
         {
-            throw new System.NotImplementedException();
+            var client = CreateClient(definition.IndexerEndpoint);
+            var result = client.GetIndex(definition.IndexName);
+            Logger.LogInformation($"{result.Indices.Count} found for name {definition.IndexName}");
+            Logger.LogInformation($"{result.Indices.Count} found with that name");
+            return result.Indices.Count > 0;
+        }
+
+        private ElasticClient CreateClient(string endpoint)
+        {
+            var node = new Uri(endpoint);
+            var settings = new ConnectionSettings(node);
+            var client = new ElasticClient(settings);
+            return client;
         }
     }
 }
