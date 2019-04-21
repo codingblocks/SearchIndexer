@@ -1,33 +1,29 @@
 ﻿using CommandLine;
-using Microsoft.Extensions.Logging;
-using SearchIndexer.App.Options;
-using SearchIndexer.Inputs.InputPlugin;
-using System.Linq;
+using SearchIndexer.App.Commands;
 
 namespace SearchIndexer.App
 {
     public class App
     {
-        private ILogger<App> Logger { get; }
-        private IDocumentProvider DocumentProvider { get; }
-        private ParserResult<GetDocumentsOptions> Options { get; }
+        private GetDocumentsCommand GetDocumentsCommand { get; }
+        private CreateIndexCommand CreateIndexCommand { get; }
+        private ParserResult<object> Options { get; }
 
-        public App(ILogger<App> logger, IDocumentProvider documentProvider, ParserResult<GetDocumentsOptions> options) // eventually , IIndexService indexService
+        public App(GetDocumentsCommand getDocumentsCommand, CreateIndexCommand createIndexCommand, ParserResult<object> options) // eventually , IIndexService indexService
         {
-            Logger = logger;
-            DocumentProvider = documentProvider;
+            GetDocumentsCommand = getDocumentsCommand;
+            CreateIndexCommand = createIndexCommand;
             Options = options;
         }
 
-        public void Run()
+        public int Run()
         {
-            Options.MapResult(
-            (GetDocumentsOptions options) => {
-                var documents = DocumentProvider.GetDocuments(options);
-                Logger.LogInformation($"Got {documents.Count()} document(s) found");
-                return 0;
-            },
-            errs => 1);
+            var result = Options.MapResult(
+                (GetDocumentsCommand.Options o) => GetDocumentsCommand.Execute(o),
+                (CreateIndexCommand.Options o) => CreateIndexCommand.Execute(o),
+                errs => 1
+            );
+            return result;
         }
     }
 }

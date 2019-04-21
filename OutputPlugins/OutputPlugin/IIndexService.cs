@@ -4,7 +4,7 @@ namespace SearchIndexer.Outputs.OutputPlugin
 {
     public interface IIndexService
     {
-        bool CreateIndex<TIndexDefinition>(TIndexDefinition definition);
+        bool CreateIndex(IIndexCreateRequest definition);
         TIndexResult GetIndex<TGetIndexDefinition, TIndexResult>(TGetIndexDefinition definition);
         bool DeleteIndex<TDeleteIndexDefinition>(TDeleteIndexDefinition definition);
 

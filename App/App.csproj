@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\InputPlugins\InputPlugin\InputPlugin.csproj" />
     <ProjectReference Include="..\InputPlugins\PodcastInputPlugin\PodcastInputPlugin.csproj" />
+    <ProjectReference Include="..\OutputPlugins\ElasticsearchOutputPlugin\ElasticsearchOutputPlugin.csproj" />
     <ProjectReference Include="..\OutputPlugins\OutputPlugin\OutputPlugin.csproj" />
   </ItemGroup>
 

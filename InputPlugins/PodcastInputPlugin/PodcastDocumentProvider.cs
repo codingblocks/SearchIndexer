@@ -4,11 +4,14 @@ using Newtonsoft.Json;
 using SearchIndexer.Inputs.InputPlugin;
 using SearchIndexer.Inputs.PodcastInputPlugin.Podcasts;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Runtime.Serialization;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SearchIndexer.Inputs.PodcastInputPlugin
 {
@@ -20,7 +23,7 @@ namespace SearchIndexer.Inputs.PodcastInputPlugin
             Logger = logger;
         }
 
-        public IEnumerable<ISerializable> GetDocuments(IGetDocumentsCommandOptions options)
+        public IEnumerable<IDocument> GetDocuments(IGetDocumentsCommandOptions options)
         {
             var feedFilePath = options.FilePath;
             if (string.IsNullOrWhiteSpace(feedFilePath))
@@ -44,16 +47,23 @@ namespace SearchIndexer.Inputs.PodcastInputPlugin
             var feeds = JsonConvert.DeserializeObject<FeedList>(fileText);
             Logger.LogInformation($"{feeds.Feeds.Count()} feeds found");
 
-            var episodes = new List<PodcastEpisode>();
+            var episodes = new ConcurrentBag<IDocument>();
 
-            // TODO parallelize? threadsafe?
-            feeds.Feeds.ToList().ForEach(f => episodes.Concat(GetEpisodes(f)));
-
-            return episodes;
+            using (var md5 = MD5.Create())
+            {
+                Parallel.ForEach(feeds.Feeds, f => {
+                    LoadEpisodes(md5, f, episodes);
+                });
+            }
+            return episodes; // TODO...
         }
 
-        private IEnumerable<PodcastEpisode> GetEpisodes(FeedMetaData feedMetaData)
+        private void LoadEpisodes(MD5 md5, FeedMetaData feedMetaData, ConcurrentBag<IDocument> destination)
         {
+            var name = GetName(feedMetaData);
+            var sw = new Stopwatch();
+            sw.Start();
+
             if (string.IsNullOrWhiteSpace(feedMetaData.FeedUrl))
             {
                 throw new ArgumentException("Invalid feed, no feedUrl found");
@@ -61,21 +71,37 @@ namespace SearchIndexer.Inputs.PodcastInputPlugin
 
             try
             {
-                Logger.LogInformation($"Downloading and parsing {feedMetaData.FeedUrl}");
+                Logger.LogInformation($"{name} Downloading and parsing");
                 var feed = PodcastFeedParser.LoadFeedAsync(feedMetaData.FeedUrl).Result;
+                sw.Stop();
+                Logger.LogInformation($"{name} Loaded the feed, {feed.EpisodeCount} episode(s) found in {sw.Elapsed.TotalSeconds}s");
 
-                Logger.LogInformation($"Loaded feed for {feed.Name}, {feed.EpisodeCount} episodes found");
-                return feed.Episodes.Select(e => new PodcastEpisode { Title = feed.Name }); // TODO Other fields
+                feed.Episodes.Select(e => new PodcastEpisode
+                {
+                    Id = GetId(md5, e.AudioFileUrl),
+                    Title = feed.Name
+                }).ToList()
+                .ForEach(e => destination.Add(e as IDocument));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Logger.LogError($"Failure downloading or parsing feed for {feedMetaData.PodcastTitle ?? feedMetaData.FeedUrl}");
-                Logger.LogError(ex.ToString());
-                Logger.LogError("Continuing anyway");
-                return Enumerable.Empty<PodcastEpisode>();
+                sw.Stop();
+                Logger.LogError($"{name}: Failure downloading or parsing feed after {sw.Elapsed.TotalSeconds}s");
+                Logger.LogError(name + ex.ToString());
+                Logger.LogError($"{name} Continuing anyway");
             }
+        }
 
-           
+        private string GetId(MD5 md5, string audioFileUrl)
+        {
+            var bytes = new UTF8Encoding().GetBytes(audioFileUrl);
+            var hash = md5.ComputeHash(bytes);
+            return string.Concat(hash.Select(x => x.ToString("X2")));
+        }
+
+        private string GetName(FeedMetaData feedMetaData)
+        {
+            return feedMetaData.PodcastTitle ?? feedMetaData.FeedUrl;
         }
     }
 }

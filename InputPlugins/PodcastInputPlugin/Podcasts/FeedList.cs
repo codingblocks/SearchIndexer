@@ -6,6 +6,6 @@ namespace SearchIndexer.Inputs.PodcastInputPlugin.Podcasts
     internal class FeedList
     {
         [JsonProperty(PropertyName = "feeds")]
-        internal List<FeedMetaData> Feeds { get; set; }
+        internal IEnumerable<FeedMetaData> Feeds { get; set; }
     }
 }

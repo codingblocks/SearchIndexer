@@ -2,7 +2,7 @@
   "profiles": {
     "App": {
       "commandName": "Project",
-      "commandLineArgs": "get-documents -f \"C:\\Users\\me\\Projects\\qit-podcast-feed-loader\\app\\feeds.json\""
+      "commandLineArgs": "create-index -n podcasts -f \"C:\\Users\\me\\Projects\\Courses\\Elasticsearch\\YouTube\\docker\\podcasts.json\""
     }
   }
 }
