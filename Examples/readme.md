@@ -1,5 +1,7 @@
 # Example setup instructions
 
+(from the project directory)
+
 ## 1. Fire up the Elastic stack as a daemon:
 
 ```bash
