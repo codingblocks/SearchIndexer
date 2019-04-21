@@ -1,4 +1,5 @@
 ﻿using CodeHollow.FeedReader;
+using CodeHollow.FeedReader.Feeds;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SearchIndexer.Inputs.InputPlugin;
@@ -78,9 +79,9 @@ namespace SearchIndexer.Inputs.PodcastInputPlugin
 
                 feed.Items.Select(e => new PodcastEpisode
                 {
-                    Id = GetId(md5, e.Link),
+                    Id = GetId(md5, GetAudioUrl(e.SpecificItem)),
                     Title = e.Title,
-                    AudioUrl = e.Link,
+                    AudioUrl = GetAudioUrl(e.SpecificItem),
                     // Episode = e.Episode, // TODO Not Supported by lib
                     // Season = e.Season, // TODO Not Supported by lib
                     Published = e.PublishingDateString,
@@ -96,6 +97,16 @@ namespace SearchIndexer.Inputs.PodcastInputPlugin
                 Logger.LogError(name + ex.ToString());
                 Logger.LogError($"{name} Continuing anyway");
             }
+        }
+
+        private string GetAudioUrl(BaseFeedItem specificItem)
+        {
+            if (specificItem is MediaRssFeedItem mediaItem)
+            {
+                return mediaItem.Enclosure.Url;
+            }
+
+            return specificItem.Link;
         }
 
         private string GetId(MD5 md5, string audioFileUrl)
