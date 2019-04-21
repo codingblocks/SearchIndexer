@@ -23,7 +23,7 @@ namespace SearchIndexer.Inputs.PodcastInputPlugin
             Logger = logger;
         }
 
-        public IEnumerable<IDocument> GetDocuments(IGetDocumentsCommandOptions options)
+        public IEnumerable<IDocument> GetDocuments(IDocumentGetRequest options)
         {
             var feedFilePath = options.FilePath;
             if (string.IsNullOrWhiteSpace(feedFilePath))
@@ -79,7 +79,13 @@ namespace SearchIndexer.Inputs.PodcastInputPlugin
                 feed.Episodes.Select(e => new PodcastEpisode
                 {
                     Id = GetId(md5, e.AudioFileUrl),
-                    Title = feed.Name
+                    Title = feed.Name,
+                    AudioUrl = e.AudioFileUrl,
+                    // Episode = e.Episode, // TODO Not Supported by lib
+                    // Season = e.Season, // TODO Not Supported by lib
+                    Published = e.PubDate.ToShortDateString(),
+                    Description = e.Description,
+                    Feed = feed.FeedUrl
                 }).ToList()
                 .ForEach(e => destination.Add(e as IDocument));
             }

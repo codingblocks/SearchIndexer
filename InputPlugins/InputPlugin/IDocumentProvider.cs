@@ -4,6 +4,6 @@ namespace SearchIndexer.Inputs.InputPlugin
 {
     public interface IDocumentProvider
     {
-        IEnumerable<IDocument> GetDocuments(IGetDocumentsCommandOptions options);
+        IEnumerable<IDocument> GetDocuments(IDocumentGetRequest options);
     }
 }

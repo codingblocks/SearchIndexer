@@ -1,4 +1,4 @@
-﻿namespace SearchIndexer.Outputs.OutputPlugin
+﻿namespace SearchIndexer.Outputs.OutputPlugin.Requests
 {
     public interface IIndexCreateRequest
     {

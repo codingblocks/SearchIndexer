@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using Elasticsearch.Net;
 using Microsoft.Extensions.Logging;
 using Nest;
 using SearchIndexer.Outputs.OutputPlugin;
+using SearchIndexer.Outputs.OutputPlugin.Requests;
 
 namespace ElasticsearchOutputPlugin
 {
@@ -14,26 +17,44 @@ namespace ElasticsearchOutputPlugin
             Logger = logger;
         }
 
-        public bool AddOrUpdateDocuments<TIndexDefinition, TDocument>(TIndexDefinition definition, IEnumerable<TDocument> documents)
+        public bool AddOrUpdateDocuments<T>(IIndexUpdateRequest request, IEnumerable<T> documents) where T:class
         {
-            throw new System.NotImplementedException();
+            var client = CreateClient(request.IndexerEndpoint);
+            var bulkAll = client.BulkAll(documents, b => b
+                .Index(request.IndexName) /* index */
+                .BackOffRetries(2)
+                .BackOffTime("30s")
+                .RefreshOnCompleted(true)
+                .MaxDegreeOfParallelism(4)
+                .Size(1000)
+            );
+
+            var waitHandle = new CountdownEvent(1);
+            bulkAll.Subscribe(new BulkAllObserver(
+                onNext: (b) => { Console.Write("."); },
+                onError: (e) => { throw e; },
+                onCompleted: () => waitHandle.Signal()
+            ));
+
+            waitHandle.Wait();
+            return true;
         }
 
-        public bool CreateIndex(IIndexCreateRequest definition)
+        public bool CreateIndex(IIndexCreateRequest request)
         {
             // TODO Validation
-            if(definition is null)
+            if(request is null)
             {
                 Logger.LogError("Definition is invalid");
                 throw new ArgumentException("Argument \"definition\" is null or not of type ElasticIndexDefinition");
             }
-            var node = new Uri(definition.IndexerEndpoint);
-            var fileText = System.IO.File.ReadAllText(definition.IndexDefinitionFilePath);
+            var node = new Uri(request.IndexerEndpoint);
+            var fileText = System.IO.File.ReadAllText(request.IndexDefinitionFilePath);
 
             var settings = new ConnectionSettings(node);
             var postData = PostData.String(fileText);
             var client = new ElasticLowLevelClient(settings);
-            var response = client.DoRequest<StringResponse>(HttpMethod.PUT, definition.IndexName, postData);
+            var response = client.DoRequest<StringResponse>(HttpMethod.PUT, request.IndexName, postData);
             if (response.HttpStatusCode.HasValue)
             {
                 // TODO Good or bad?
@@ -44,40 +65,35 @@ namespace ElasticsearchOutputPlugin
             return response.Success;
         }
 
-        public bool DeleteDocuments<TDeleteIndexDefinition, TDeleteDocumentDefinition>(TDeleteIndexDefinition definition, IEnumerable<TDeleteDocumentDefinition> documents)
+        public bool DeleteIndex(IIndexDeleteRequest request)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public bool DeleteIndex(IIndexDeleteRequest definition)
-        {
-            var client = CreateClient(definition.IndexerEndpoint);
-            var existingIndex = Indices.Index(definition.IndexName);
+            var client = CreateClient(request.IndexerEndpoint);
+            var existingIndex = Indices.Index(request.IndexName);
             if (existingIndex != null)
             {
-                Logger.LogInformation($"Deleting index {definition.IndexName}");
+                Logger.LogInformation($"Deleting index {request.IndexName}");
                 var deleteResponse = client.DeleteIndex(existingIndex);
                 if(deleteResponse.Acknowledged)
                 {
-                    Logger.LogInformation($"Index {definition.IndexName} has been deleted");
+                    Logger.LogInformation($"Index {request.IndexName} has been deleted");
                     return true;
                 }
                 else
                 {
-                    Logger.LogWarning($"Unable to delete index {definition.IndexName} has been deleted");
+                    Logger.LogWarning($"Unable to delete index {request.IndexName} has been deleted");
                     return false;
                 }
             }
 
-            Logger.LogWarning($"Index {definition.IndexName} does not exist, cannot delete");
+            Logger.LogWarning($"Index {request.IndexName} does not exist, cannot delete");
             return false;
         }
 
-        public bool IndexExists(SearchIndexer.Outputs.OutputPlugin.IIndexExistsRequest definition)
+        public bool IndexExists(SearchIndexer.Outputs.OutputPlugin.Requests.IIndexExistsRequest request)
         {
-            var client = CreateClient(definition.IndexerEndpoint);
-            var result = client.GetIndex(definition.IndexName);
-            Logger.LogInformation($"{result.Indices.Count} found for name {definition.IndexName}");
+            var client = CreateClient(request.IndexerEndpoint);
+            var result = client.GetIndex(request.IndexName);
+            Logger.LogInformation($"{result.Indices.Count} found for name {request.IndexName}");
             Logger.LogInformation($"{result.Indices.Count} found with that name");
             return result.Indices.Count > 0;
         }

@@ -2,7 +2,7 @@
   "profiles": {
     "App": {
       "commandName": "Project",
-      "commandLineArgs": "delete-index -n podcasts -f \"C:\\Users\\me\\Projects\\Courses\\Elasticsearch\\YouTube\\docker\\podcasts.json\" -e \"http://localhost:9200\""
+      "commandLineArgs": "update-documents -f  C:\\Users\\me\\Projects\\qit-podcast-feed-loader\\app\\feeds.json -e \"http://localhost:9200\" -n podcasts"
     }
   }
 }

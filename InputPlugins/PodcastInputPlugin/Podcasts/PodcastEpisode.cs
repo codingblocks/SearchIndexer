@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
+using SearchIndexer.Inputs.InputPlugin;
 using System;
 using System.Collections.Generic;
 
 namespace SearchIndexer.Inputs.PodcastInputPlugin.Podcasts
 {
     [Serializable]
-    public class PodcastEpisode
+    public class PodcastEpisode : IDocument
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }

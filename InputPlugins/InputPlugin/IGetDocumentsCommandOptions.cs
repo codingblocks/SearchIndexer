@@ -1,6 +1,6 @@
 ﻿namespace SearchIndexer.Inputs.InputPlugin
 {
-    public interface IGetDocumentsCommandOptions
+    public interface IDocumentGetRequest
     {
         string FilePath { get; }
     }

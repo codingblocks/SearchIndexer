@@ -5,6 +5,7 @@ The idea is to have a simple console UI that can read in documents and export th
 Each type of input or output should have it's own assembly.
 
 ## TODO
+* Podcast lib is .net only (no core) and is missing the latest round of fields
 * Podcast Input Plugin is a mess
 * The divide shouldn't be between input and output, more like document provider and index services
 * Configurations specific to the plugin shouldn't be in the args
@@ -26,8 +27,8 @@ Settings that are specific to an input or output _should_ (TODO, for example: se
 dotnet ./App.dll create-index -e "http://localhost:9200" -n podcasts -f "C:\Users\me\Projects\Courses\Elasticsearch\YouTube\docker\podcasts.json"
 dotnet ./App.dll delete-index -e "http://localhost:9200" -n podcasts
 dotnet ./App.dll index-exists -e "http://localhost:9200" -n podcasts
-dotnet ./App.dll get-documents
-dotnet ./App.dll update-documents
+dotnet ./App.dll get-documents -f  C:\Users\me\Projects\qit-podcast-feed-loader\app\feeds.json
+dotnet ./App.dll update-documents -f  C:\Users\me\Projects\qit-podcast-feed-loader\app\feeds.json -e "http://localhost:9200" -n podcasts
 ```
 ## Adding a new command
 

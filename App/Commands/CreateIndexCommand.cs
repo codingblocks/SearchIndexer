@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using Microsoft.Extensions.Logging;
 using SearchIndexer.Outputs.OutputPlugin;
+using SearchIndexer.Outputs.OutputPlugin.Requests;
 
 namespace SearchIndexer.App.Commands
 {

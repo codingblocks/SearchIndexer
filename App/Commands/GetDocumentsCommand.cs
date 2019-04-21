@@ -8,7 +8,7 @@ namespace SearchIndexer.App.Commands
     public class GetDocumentsCommand : ICommand<GetDocumentsCommand.Options>
     {
         [Verb("get-documents", HelpText = "Add or update files in an index")]
-        public class Options : IGetDocumentsCommandOptions
+        public class Options : IDocumentGetRequest
         {
             [Option('f', "file", Required = true, HelpText = "File that contains enough meta data to get a set of documents")]
             public string FilePath { get; set; }
