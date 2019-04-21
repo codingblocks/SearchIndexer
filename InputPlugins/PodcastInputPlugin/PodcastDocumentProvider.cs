@@ -1,4 +1,5 @@
-﻿using iPodcastSearch;
+﻿using CodeHollow.FeedReader;
+using CodeHollow.FeedReader.Feeds;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SearchIndexer.Inputs.InputPlugin;
@@ -73,20 +74,20 @@ namespace SearchIndexer.Inputs.PodcastInputPlugin
             try
             {
                 Logger.LogInformation($"{name} Downloading and parsing");
-                var feed = PodcastFeedParser.LoadFeedAsync(feedMetaData.FeedUrl).Result;
+                var feed = FeedReader.ReadAsync(feedMetaData.FeedUrl).Result;
                 sw.Stop();
-                Logger.LogInformation($"{name} Loaded the feed, {feed.EpisodeCount} episode(s) found in {sw.Elapsed.TotalSeconds}s");
+                Logger.LogInformation($"{name} Loaded the feed, {feed.Items.Count} episode(s) found in {sw.Elapsed.TotalSeconds}s");
 
-                feed.Episodes.Select(e => new PodcastEpisode
+                feed.Items.Select(e => new PodcastEpisode
                 {
-                    Id = GetId(md5, e.AudioFileUrl),
-                    Title = feed.Name,
-                    AudioUrl = e.AudioFileUrl,
+                    Id = GetId(md5, GetAudioUrl(e.SpecificItem)),
+                    Title = e.Title,
+                    AudioUrl = GetAudioUrl(e.SpecificItem),
                     // Episode = e.Episode, // TODO Not Supported by lib
                     // Season = e.Season, // TODO Not Supported by lib
-                    Published = e.PubDate.ToShortDateString(),
+                    Published = e.PublishingDateString,
                     Description = e.Description,
-                    Feed = feed.FeedUrl
+                    Feed = feedMetaData.FeedUrl
                 }).ToList()
                 .ForEach(e => destination.Add(e as IDocument));
             }
@@ -97,6 +98,16 @@ namespace SearchIndexer.Inputs.PodcastInputPlugin
                 Logger.LogError(name + ex.ToString());
                 Logger.LogError($"{name} Continuing anyway");
             }
+        }
+
+        private string GetAudioUrl(BaseFeedItem specificItem)
+        {
+            if (specificItem is MediaRssFeedItem mediaItem)
+            {
+                return mediaItem.Enclosure.Url;
+            }
+
+            return specificItem.Link;
         }
 
         private string GetId(MD5 md5, string audioFileUrl)
