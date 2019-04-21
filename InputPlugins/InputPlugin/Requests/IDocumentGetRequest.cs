@@ -1,4 +1,4 @@
-﻿namespace SearchIndexer.Inputs.InputPlugin
+﻿namespace SearchIndexer.Inputs.InputPlugin.Requests
 {
     public interface IDocumentGetRequest
     {

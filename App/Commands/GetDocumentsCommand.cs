@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using Microsoft.Extensions.Logging;
 using SearchIndexer.Inputs.InputPlugin;
+using SearchIndexer.Inputs.InputPlugin.Requests;
 using System.Linq;
 
 namespace SearchIndexer.App.Commands

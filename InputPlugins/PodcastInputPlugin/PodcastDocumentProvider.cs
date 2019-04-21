@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SearchIndexer.Inputs.InputPlugin;
+using SearchIndexer.Inputs.InputPlugin.Requests;
 using SearchIndexer.Inputs.PodcastInputPlugin.Podcasts;
 using System;
 using System.Collections.Concurrent;
