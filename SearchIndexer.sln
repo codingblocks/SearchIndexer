@@ -22,6 +22,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutputPlugin", "OutputPlugi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElasticsearchOutputPlugin", "OutputPlugins\ElasticsearchOutputPlugin\ElasticsearchOutputPlugin.csproj", "{E364690A-B576-446E-B066-6E57BBE32E9B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{6698C697-EC0F-42B7-95F8-7D1AB978BB51}"
+	ProjectSection(SolutionItems) = preProject
+		Examples\elastic-docker-compose.yml = Examples\elastic-docker-compose.yml
+		Examples\elastic-podcast-index-definition.json = Examples\elastic-podcast-index-definition.json
+		Examples\podcast-feeds.json = Examples\podcast-feeds.json
+		Examples\readme.md = Examples\readme.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +65,7 @@ Global
 		{15303F94-9381-4663-A45C-13F728E3D1B2} = {FC548FFF-F825-43C5-877B-1536B6A78A2C}
 		{D0D0BBEB-CCE4-4A96-A96E-9524B861BA1A} = {154D82A5-F30F-4AAA-B430-AFC4B3BA4BEE}
 		{E364690A-B576-446E-B066-6E57BBE32E9B} = {154D82A5-F30F-4AAA-B430-AFC4B3BA4BEE}
+		{6698C697-EC0F-42B7-95F8-7D1AB978BB51} = {CF24010D-355E-43DA-A963-6615CE860D28}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44B05C06-CED4-41AB-BF57-9670CA8E1E00}

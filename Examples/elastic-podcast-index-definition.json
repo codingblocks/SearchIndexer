@@ -1,0 +1,34 @@
+{
+  "mappings": {
+    "properties": {
+      "audioUrl": {
+        "type": "keyword"
+      },
+      "description": {
+        "type": "text"
+      },
+      "feed": {
+        "type": "keyword"
+      },
+      "id": {
+        "type": "keyword"
+      },
+      "published": {
+        "type": "date"
+      },
+      "title": {
+        "type": "keyword"
+      },
+      "episode": {
+        "type": "text"
+      }
+    }
+  },
+  "settings": {
+    "index": {
+      "number_of_shards": 3,
+      "number_of_replicas": 2,
+      "refresh_interval": "30s"
+    }
+  }
+}

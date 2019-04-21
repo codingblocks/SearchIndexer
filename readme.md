@@ -4,7 +4,12 @@ The idea is to have a simple console UI that can read in documents and export th
 
 Each type of input or output should have it's own assembly.
 
+## Getting started
+The easiest way to get started, is to fire up the example architecture. Check out the readme file in the "Examples" folder for more.
+
+
 ## TODO
+* Lots, too much to name
 * Podcast lib is .net only (no core) and is missing the latest round of fields
 * Podcast Input Plugin is a mess
 * The divide shouldn't be between input and output, more like document provider and index services
@@ -24,11 +29,11 @@ Settings that are specific to an input or output _should_ (TODO, for example: se
 ## Example usage:
 ```bash
 # information about the loading and indexer are done in configuration
-dotnet ./App.dll create-index -e "http://localhost:9200" -n podcasts -f "C:\Users\me\Projects\Courses\Elasticsearch\YouTube\docker\podcasts.json"
-dotnet ./App.dll delete-index -e "http://localhost:9200" -n podcasts
-dotnet ./App.dll index-exists -e "http://localhost:9200" -n podcasts
-dotnet ./App.dll get-documents -f  C:\Users\me\Projects\qit-podcast-feed-loader\app\feeds.json
-dotnet ./App.dll update-documents -f  C:\Users\me\Projects\qit-podcast-feed-loader\app\feeds.json -e "http://localhost:9200" -n podcasts
+dotnet ./App/bin/Debug/netcoreapp2.2/App.dll create-index -e "http://localhost:9200" -n podcasts -f Examples\elastic-podcast-index-definition.json
+dotnet ./App/bin/Debug/netcoreapp2.2/App.dll delete-index -e "http://localhost:9200" -n podcasts
+dotnet ./App/bin/Debug/netcoreapp2.2/App.dll index-exists -e "http://localhost:9200" -n podcasts
+dotnet ./App/bin/Debug/netcoreapp2.2/App.dll get-documents -f Examples\podcast-feeds.json
+dotnet ./App/bin/Debug/netcoreapp2.2/App.dll update-documents -f  Examples\podcast-feeds.json -e "http://localhost:9200" -n podcasts -e "http://localhost:9200" -n podcasts
 ```
 ## Adding a new command
 
