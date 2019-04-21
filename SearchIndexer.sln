@@ -12,13 +12,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inputs", "Inputs", "{FC548FFF-F825-43C5-877B-1536B6A78A2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InputPlugin", "InputPlugins\InputPlugin\InputPlugin.csproj", "{913C6BBA-3E53-44CE-8CFF-D2E4E21994CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InputPlugin", "InputPlugins\InputPlugin\InputPlugin.csproj", "{913C6BBA-3E53-44CE-8CFF-D2E4E21994CE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodcastInputPlugin", "InputPlugins\PodcastInputPlugin\PodcastInputPlugin.csproj", "{15303F94-9381-4663-A45C-13F728E3D1B2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Outputs", "Outputs", "{154D82A5-F30F-4AAA-B430-AFC4B3BA4BEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutputPlugin", "OutputPlugins\OutputPlugin\OutputPlugin.csproj", "{D0D0BBEB-CCE4-4A96-A96E-9524B861BA1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutputPlugin", "OutputPlugins\OutputPlugin\OutputPlugin.csproj", "{D0D0BBEB-CCE4-4A96-A96E-9524B861BA1A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElasticsearchOutputPlugin", "OutputPlugins\ElasticsearchOutputPlugin\ElasticsearchOutputPlugin.csproj", "{E364690A-B576-446E-B066-6E57BBE32E9B}"
 EndProject

@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Podcasts
+namespace SearchIndexer.Inputs.PodcastInputPlugin.Podcasts
 {
-    public class FeedMetaData : IFeedMetaData
+    internal class FeedMetaData
     {
         [JsonProperty(PropertyName = "titleCleanser")]
         public string TitleCleanser { get; set; }

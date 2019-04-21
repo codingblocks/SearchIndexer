@@ -1,56 +1,23 @@
-﻿using System;
-using Microsoft.Extensions.Logging;
+﻿using CommandLine;
+using SearchIndexer.App.Commands;
+using System;
 
 namespace SearchIndexer.App
 {
     public class App
     {
-        private ILogger _logger;
-        private ICommandArguments _parsedArguments;
+        private IServiceProvider ServiceProvider { get; }
+        private ParserResult<object> ParsedCommand { get; }
 
-        public App(ILogger<App> logger, ICommandArguments parsedArguments)
+        public App(ParserResult<object> parsedCommand, IServiceProvider serviceProvider)
         {
-            _logger = logger;
-            _parsedArguments = parsedArguments;
+            ParsedCommand = parsedCommand;
+            ServiceProvider = serviceProvider;
         }
 
-        public void Run()
+        public int Execute()
         {
-            _logger.LogInformation("Application is running");
-            switch (_parsedArguments.RunningMode)
-            {
-                case RunningMode.Create:
-                {
-                    _logger.LogInformation("Doing some create-y stuff");
-                    break;
-                }
-                case RunningMode.Delete:
-                {
-                    _logger.LogInformation("Doing some delete-y stuff");
-                    break;
-                }
-                case RunningMode.Get:
-                {
-                    _logger.LogInformation("Doing some get-y stuff");
-                    break;
-                }
-                case RunningMode.Update:
-                {
-                    _logger.LogInformation("Doing some update-y stuff");
-                    break;
-                }
-                case RunningMode.None:
-                {
-                    _logger.LogError("No running mode was provided.");
-                    throw new ArgumentNullException(nameof(_parsedArguments.RunningMode));
-                }
-                // anything else?
-                default:
-                    {
-                        _logger.LogInformation("This should never happen.");
-                        break;
-                    }
-            }
+            return ParsedCommand.Execute(ServiceProvider);
         }
     }
 }

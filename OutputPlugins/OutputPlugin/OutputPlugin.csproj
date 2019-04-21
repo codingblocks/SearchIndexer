@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>namespace SearchIndexer.Outputs.OutputPlugin</RootNamespace>
   </PropertyGroup>
 
 </Project>

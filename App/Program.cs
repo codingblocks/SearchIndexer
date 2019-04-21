@@ -4,12 +4,12 @@ namespace SearchIndexer.App
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             var configuration = new AppConfiguration(args);
             using (var serviceProvider = configuration.ConfigureServiceProvider())
             {
-                serviceProvider.GetService<App>().Run();
+                return serviceProvider.GetService<App>().Execute();
             }
         }
     }

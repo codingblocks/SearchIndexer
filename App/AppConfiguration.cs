@@ -1,6 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using ElasticsearchOutputPlugin;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using SearchIndexer.App.ArgumentParsing;
+using SearchIndexer.App.Commands;
+using SearchIndexer.Inputs.InputPlugin;
+using SearchIndexer.Inputs.PodcastInputPlugin;
+using SearchIndexer.Outputs.OutputPlugin;
 
 namespace SearchIndexer.App
 {
@@ -23,9 +27,10 @@ namespace SearchIndexer.App
                 })
                 .Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Debug) // TODO Configify me
                 .AddTransient<App>()
-                .AddSingleton<ICommandArguments>(x => (new ArgumentParsingService()).Parse(_args))
+                .AddTransient<IDocumentProvider, PodcastDocumentProvider>() // TODO Configify me
+                .AddTransient<IIndexService, ElasticsearchIndexService>() // TODO Configify me
+                .ConfigureCommands(_args)
                 .BuildServiceProvider();
-
             return serviceProvider;
         }
     }
