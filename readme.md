@@ -28,3 +28,7 @@ dotnet ./App.dll delete-index -e "http://localhost:9200" -n podcasts
 dotnet ./App.dll get-documents
 dotnet ./App.dll update-documents
 ```
+## Adding a new command
+
+1. Create a new file for the command in App.Commands that impliments ICommand<WhateverYourCommandNameIs>
+2. Add the bindings for the command in CommandRegistryExtensions.cs
