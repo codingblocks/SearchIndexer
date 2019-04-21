@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SearchIndexer.Inputs.InputPlugin.Requests;
+using System.Collections.Generic;
 
 namespace SearchIndexer.Inputs.InputPlugin
 {

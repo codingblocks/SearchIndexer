@@ -18,7 +18,7 @@ namespace SearchIndexer.Inputs.PodcastInputPlugin.Podcasts
         public string Description { get; set; }
 
         [JsonProperty(PropertyName = "published")]
-        public string Published { get; set; }
+        public DateTime? Published { get; set; }
 
         [JsonProperty(PropertyName = "audioUrl")]
         public string AudioUrl { get; set; }

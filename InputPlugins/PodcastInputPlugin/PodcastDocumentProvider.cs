@@ -3,6 +3,7 @@ using CodeHollow.FeedReader.Feeds;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SearchIndexer.Inputs.InputPlugin;
+using SearchIndexer.Inputs.InputPlugin.Requests;
 using SearchIndexer.Inputs.PodcastInputPlugin.Podcasts;
 using System;
 using System.Collections.Concurrent;
@@ -80,11 +81,12 @@ namespace SearchIndexer.Inputs.PodcastInputPlugin
                 feed.Items.Select(e => new PodcastEpisode
                 {
                     Id = GetId(md5, GetAudioUrl(e.SpecificItem)),
-                    Title = e.Title,
+                    Title = feed.Title,
+                    Episode = e.Title, // TODO regex
                     AudioUrl = GetAudioUrl(e.SpecificItem),
                     // Episode = e.Episode, // TODO Not Supported by lib
                     // Season = e.Season, // TODO Not Supported by lib
-                    Published = e.PublishingDateString,
+                    Published = e.PublishingDate,
                     Description = e.Description,
                     Feed = feedMetaData.FeedUrl
                 }).ToList()
