@@ -1,29 +1,23 @@
 ﻿using CommandLine;
 using SearchIndexer.App.Commands;
+using System;
 
 namespace SearchIndexer.App
 {
     public class App
     {
-        private GetDocumentsCommand GetDocumentsCommand { get; }
-        private CreateIndexCommand CreateIndexCommand { get; }
-        private ParserResult<object> Options { get; }
+        private IServiceProvider ServiceProvider { get; }
+        private ParserResult<object> ParsedCommand { get; }
 
-        public App(GetDocumentsCommand getDocumentsCommand, CreateIndexCommand createIndexCommand, ParserResult<object> options) // eventually , IIndexService indexService
+        public App(ParserResult<object> parsedCommand, IServiceProvider serviceProvider)
         {
-            GetDocumentsCommand = getDocumentsCommand;
-            CreateIndexCommand = createIndexCommand;
-            Options = options;
+            ParsedCommand = parsedCommand;
+            ServiceProvider = serviceProvider;
         }
 
-        public int Run()
+        public int Execute()
         {
-            var result = Options.MapResult(
-                (GetDocumentsCommand.Options o) => GetDocumentsCommand.Execute(o),
-                (CreateIndexCommand.Options o) => CreateIndexCommand.Execute(o),
-                errs => 1
-            );
-            return result;
+            return ParsedCommand.Execute(ServiceProvider);
         }
     }
 }

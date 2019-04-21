@@ -9,7 +9,7 @@ namespace SearchIndexer.App
             var configuration = new AppConfiguration(args);
             using (var serviceProvider = configuration.ConfigureServiceProvider())
             {
-                return serviceProvider.GetService<App>().Run();
+                return serviceProvider.GetService<App>().Execute();
             }
         }
     }

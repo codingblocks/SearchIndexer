@@ -30,9 +30,7 @@ namespace SearchIndexer.App
                 .AddTransient<App>()
                 .AddTransient<IDocumentProvider, PodcastDocumentProvider>() // TODO config based
                 .AddTransient<IIndexService, ElasticsearchIndexService>() // TODO config based
-                .AddTransient<CreateIndexCommand>()
-                .AddTransient<GetDocumentsCommand>()
-                .AddSingleton(Parser.Default.ParseArguments<GetDocumentsCommand.Options, CreateIndexCommand.Options>(_args)) // TODO Hard-Coded 3p, wrap me!
+                .ConfigureCommands(_args)
                 .BuildServiceProvider();
             return serviceProvider;
         }
