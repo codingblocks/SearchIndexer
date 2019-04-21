@@ -2,7 +2,7 @@
   "profiles": {
     "App": {
       "commandName": "Project",
-      "commandLineArgs": "create-index -n podcasts -f \"C:\\Users\\me\\Projects\\Courses\\Elasticsearch\\YouTube\\docker\\podcasts.json\""
+      "commandLineArgs": "delete-index -n podcasts -f \"C:\\Users\\me\\Projects\\Courses\\Elasticsearch\\YouTube\\docker\\podcasts.json\" -e \"http://localhost:9200\""
     }
   }
 }

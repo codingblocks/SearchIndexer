@@ -4,23 +4,21 @@ using SearchIndexer.Outputs.OutputPlugin;
 
 namespace SearchIndexer.App.Commands
 {
-    public class CreateIndexCommand : ICommand<CreateIndexCommand.Options>
+    public class DeleteIndexCommand : ICommand<DeleteIndexCommand.Options>
     {
-        [Verb("create-index", HelpText = "Create an index")]
-        public class Options : IIndexCreateRequest
+        [Verb("delete-index", HelpText = "Delete an index")]
+        public class Options : IIndexDeleteRequest
         {
             [Option('e', "endpoint", Required = true, HelpText = "Full url of the indexer endpoint")]
             public string IndexerEndpoint { get; set; }
             [Option('n', "name", Required = true, HelpText = "Name of the index to create")]
             public string IndexName { get; set; }
-            [Option('f', "file", Required = true, HelpText = "File that contains whatever metadata is necessary to create an index")]
-            public string IndexDefinitionFilePath { get; set; }
         }
 
         private IIndexService IndexService { get; }
         private ILogger<GetDocumentsCommand> Logger { get; }
 
-        public CreateIndexCommand(IIndexService indexService, ILogger<GetDocumentsCommand> logger)
+        public DeleteIndexCommand(IIndexService indexService, ILogger<GetDocumentsCommand> logger)
         {
             IndexService = indexService;
             Logger = logger;
@@ -28,8 +26,8 @@ namespace SearchIndexer.App.Commands
 
         public int Execute(Options o)
         {
-            var success = IndexService.CreateIndex(o);
-            var successMessage = success ? "created" : "creation failed";
+            var success = IndexService.DeleteIndex(o);
+            var successMessage = success ? "deleted" : "delete failed";
             Logger.LogInformation($"{o.IndexName} {successMessage}");
             return success ? 0 : 1;
         }

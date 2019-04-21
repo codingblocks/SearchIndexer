@@ -18,16 +18,13 @@ Each type of input or output should have it's own assembly.
 * Azure Search
 * ElasticSearch
 
-Settings that are specific to an input or output should be managed via configuration settings - not passed in via command line
+Settings that are specific to an input or output _should_ (TODO, for example: security) be managed via configuration settings - not passed in via command line
 
 ## Example usage:
 ```bash
 # information about the loading and indexer are done in configuration
-dotnet run ./SearchIndexer.dll create-index
-dotnet run ./SearchIndexer.dll delete-index
-dotnet run ./SearchIndexer.dll get-documents
-dotnet run ./SearchIndexer.dll update-documents
+dotnet ./App.dll create-index -e "http://localhost:9200" -n podcasts -f "C:\Users\me\Projects\Courses\Elasticsearch\YouTube\docker\podcasts.json"
+dotnet ./App.dll delete-index -e "http://localhost:9200" -n podcasts
+dotnet ./App.dll get-documents
+dotnet ./App.dll update-documents
 ```
-
-## Configuration Examples
-I dunno yet

@@ -6,7 +6,7 @@ namespace SearchIndexer.Outputs.OutputPlugin
     {
         bool CreateIndex(IIndexCreateRequest definition);
         TIndexResult GetIndex<TGetIndexDefinition, TIndexResult>(TGetIndexDefinition definition);
-        bool DeleteIndex<TDeleteIndexDefinition>(TDeleteIndexDefinition definition);
+        bool DeleteIndex(IIndexDeleteRequest definition);
 
         bool AddOrUpdateDocuments<TIndexDefinition, TDocument>(TIndexDefinition definition, IEnumerable<TDocument> documents);
         bool DeleteDocuments<TDeleteIndexDefinition, TDeleteDocumentDefinition>(TDeleteIndexDefinition definition, IEnumerable<TDeleteDocumentDefinition> documents);

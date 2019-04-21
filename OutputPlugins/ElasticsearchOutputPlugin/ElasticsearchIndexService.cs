@@ -27,14 +27,13 @@ namespace ElasticsearchOutputPlugin
                 Logger.LogError("Definition is invalid");
                 throw new ArgumentException("Argument \"definition\" is null or not of type ElasticIndexDefinition");
             }
-            const string indexEndpoint = "http://localhost:9200"; // TODO setting
-            var node = new Uri(indexEndpoint);
-            var fileText = System.IO.File.ReadAllText(definition.FilePath);
+            var node = new Uri(definition.IndexerEndpoint);
+            var fileText = System.IO.File.ReadAllText(definition.IndexDefinitionFilePath);
 
             var settings = new ConnectionSettings(node);
             var postData = PostData.String(fileText);
             var client = new ElasticLowLevelClient(settings);
-            var response = client.DoRequest<StringResponse>(HttpMethod.PUT, definition.Name, postData);
+            var response = client.DoRequest<StringResponse>(HttpMethod.PUT, definition.IndexName, postData);
             if (response.HttpStatusCode.HasValue)
             {
                 // TODO Good or bad?
@@ -42,8 +41,7 @@ namespace ElasticsearchOutputPlugin
             }
             Logger.LogDebug(response.DebugInformation);
             Logger.LogInformation(response.Body);
-            
-            return true;
+            return response.Success;
         }
 
         public bool DeleteDocuments<TDeleteIndexDefinition, TDeleteDocumentDefinition>(TDeleteIndexDefinition definition, IEnumerable<TDeleteDocumentDefinition> documents)
@@ -51,9 +49,30 @@ namespace ElasticsearchOutputPlugin
             throw new System.NotImplementedException();
         }
 
-        public bool DeleteIndex<TDeleteIndexDefinition>(TDeleteIndexDefinition definition)
+        public bool DeleteIndex(IIndexDeleteRequest definition)
         {
-            throw new System.NotImplementedException();
+            var node = new Uri(definition.IndexerEndpoint);
+            var settings = new ConnectionSettings(node);
+            var client = new ElasticClient(settings);
+            var existingIndex = Indices.Index(definition.IndexName);
+            if (existingIndex != null)
+            {
+                Logger.LogInformation($"Deleting index {definition.IndexName}");
+                var deleteResponse = client.DeleteIndex(existingIndex);
+                if(deleteResponse.Acknowledged)
+                {
+                    Logger.LogInformation($"Index {definition.IndexName} has been deleted");
+                    return true;
+                }
+                else
+                {
+                    Logger.LogWarning($"Unable to delete index {definition.IndexName} has been deleted");
+                    return false;
+                }
+            }
+
+            Logger.LogWarning($"Index {definition.IndexName} does not exist, cannot delete");
+            return false;
         }
 
         public TIndexResult GetIndex<TGetIndexDefinition, TIndexResult>(TGetIndexDefinition definition)

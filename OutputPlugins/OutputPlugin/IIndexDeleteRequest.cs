@@ -1,9 +1,8 @@
 ﻿namespace SearchIndexer.Outputs.OutputPlugin
 {
-    public interface IIndexCreateRequest
+    public interface IIndexDeleteRequest
     {
         string IndexerEndpoint { get; }
         string IndexName { get; }
-        string IndexDefinitionFilePath { get; }
     }
 }
