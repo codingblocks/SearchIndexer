@@ -29,7 +29,7 @@
         "type": "keyword"
       },
       "episode_type": {
-        "type": "keyword"
+        "type": "integer"
       },
       "episode_tags": {
         "type": "keyword"

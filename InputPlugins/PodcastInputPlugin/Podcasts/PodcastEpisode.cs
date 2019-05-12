@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using Nest;
 using SearchIndexer.Inputs.InputPlugin;
 using System;
 using System.Collections.Generic;
@@ -8,37 +8,37 @@ namespace SearchIndexer.Inputs.PodcastInputPlugin.Podcasts
     [Serializable]
     public class PodcastEpisode : IDocument
     {
-        [JsonProperty(PropertyName = "id")]
+        [Keyword(Name = "id")]
         public string Id { get; set; }
 
-        [JsonProperty(PropertyName = "feed")]
+        [Keyword(Name = "feed")]
         public string Feed { get; set; }
 
-        [JsonProperty(PropertyName = "podcast_title")]
+        [Text(Name = "podcast_title")]
         public string PodcastTitle { get; set; }
 
-        [JsonProperty(PropertyName = "episode_description")]
+        [Text(Name = "episode_description")]
         public string EpisodeDescription { get; set; }
 
-        [JsonProperty(PropertyName = "published")]
+        [Date(Name = "published")]
         public DateTime? Published { get; set; }
 
-        [JsonProperty(PropertyName = "audio_url")]
+        [Keyword(Name = "audio_url")]
         public string AudioUrl { get; set; }
 
-        [JsonProperty(PropertyName = "episode_title")]
+        [Text(Name = "episode_title")]
         public string EpisodeTitle { get; set; }
 
-        [JsonProperty(PropertyName = "season")]
+        [Keyword(Name = "season")]
         public string Season { get; set; }
 
-        [JsonProperty(PropertyName = "episode_number")]
-        public string EpisodeNumber { get; set; }
+        [Number(Name = "episode_number")]
+        public int EpisodeNumber { get; set; }
 
-        [JsonProperty(PropertyName = "episode_type")]
+        [Keyword(Name = "episode_type")]
         public string EpisodeType { get; set; }
 
-        [JsonProperty(PropertyName = "episode_tags")]
+        [Keyword(Name = "episode_tags")]
         public List<string> EpisodeTags { get; set; }
     }
 }
