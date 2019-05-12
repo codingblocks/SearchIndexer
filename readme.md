@@ -33,7 +33,7 @@ dotnet ./App/bin/Debug/netcoreapp2.2/App.dll create-index -e "http://localhost:9
 dotnet ./App/bin/Debug/netcoreapp2.2/App.dll delete-index -e "http://localhost:9200" -n podcasts
 dotnet ./App/bin/Debug/netcoreapp2.2/App.dll index-exists -e "http://localhost:9200" -n podcasts
 dotnet ./App/bin/Debug/netcoreapp2.2/App.dll get-documents -f Examples\podcast-feeds.json
-dotnet ./App/bin/Debug/netcoreapp2.2/App.dll update-documents -f  Examples\podcast-feeds.json -e "http://localhost:9200" -n podcasts -e "http://localhost:9200" -n podcasts
+dotnet ./App/bin/Debug/netcoreapp2.2/App.dll update-documents -f  Examples\podcast-feeds.json -e "http://localhost:9200" -n podcasts
 ```
 ## Adding a new command
 

@@ -1,26 +1,38 @@
 {
   "mappings": {
     "properties": {
-      "audioUrl": {
+      "id": {
         "type": "keyword"
-      },
-      "description": {
-        "type": "text"
       },
       "feed": {
         "type": "keyword"
       },
-      "id": {
-        "type": "keyword"
+      "podcast_title": {
+        "type": "text"
+      },
+      "episode_description": {
+        "type": "text"
       },
       "published": {
         "type": "date"
       },
-      "title": {
+      "audio_url": {
         "type": "keyword"
       },
-      "episode": {
+      "episode_title": {
         "type": "text"
+      },
+      "season": {
+        "type": "keyword"
+      },
+      "episode_number": {
+        "type": "keyword"
+      },
+      "episode_type": {
+        "type": "keyword"
+      },
+      "episode_tags": {
+        "type": "keyword"
       }
     }
   },

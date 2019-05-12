@@ -81,13 +81,15 @@ namespace SearchIndexer.Inputs.PodcastInputPlugin
                 feed.Items.Select(e => new PodcastEpisode
                 {
                     Id = GetId(md5, GetAudioUrl(e.SpecificItem)),
-                    Title = feed.Title,
-                    Episode = e.Title, // TODO regex
-                    AudioUrl = GetAudioUrl(e.SpecificItem),
-                    // Episode = e.Episode, // TODO Not Supported by lib
-                    // Season = e.Season, // TODO Not Supported by lib
+                    PodcastTitle = feed.Title,
+                    EpisodeDescription = e.Description,
+                    EpisodeTitle = e.Title, // TODO regex
                     Published = e.PublishingDate,
-                    Description = e.Description,
+                    AudioUrl = GetAudioUrl(e.SpecificItem),
+                    // Season = e.Season, // TODO Not Supported by lib
+                    // EpisodeNumber = e.Episode, // TODO Not Supported by lib
+                    // EpisodeType = e.EpisodeType, // TODO Not Supported by lib
+                    // Tags = e.Tags, // TODO Have to build this
                     Feed = feedMetaData.FeedUrl
                 }).ToList()
                 .ForEach(e => destination.Add(e as IDocument));
