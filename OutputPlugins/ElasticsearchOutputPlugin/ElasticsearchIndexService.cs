@@ -18,7 +18,7 @@ namespace ElasticsearchOutputPlugin
 
         public bool AddOrUpdateDocuments<T>(IIndexUpdateRequest request, IEnumerable<T> documents) where T:class
         {
-            var client = CreateClient(request.IndexerEndpoint);
+            var client = CreateClient(request);
             var bulkAll = client.BulkAll(documents, b => b
                 .Index(request.IndexName) /* index */
                 .BackOffRetries(2)
@@ -47,13 +47,11 @@ namespace ElasticsearchOutputPlugin
                 Logger.LogError("Definition is invalid");
                 throw new ArgumentException("Argument \"definition\" is null or not of type ElasticIndexDefinition");
             }
-            var node = new Uri(request.IndexerEndpoint);
+            
             var fileText = System.IO.File.ReadAllText(request.IndexDefinitionFilePath);
-
-            var settings = new ConnectionSettings(node);
             var postData = PostData.String(fileText);
-            var client = new ElasticLowLevelClient(settings);
-            var response = client.DoRequest<StringResponse>(HttpMethod.PUT, request.IndexName, postData);
+            var client = CreateClient(request);
+            var response = client.LowLevel.DoRequest<StringResponse>(HttpMethod.PUT, request.IndexName, postData);
             if (response.HttpStatusCode.HasValue)
             {
                 // TODO Good or bad?
@@ -66,7 +64,7 @@ namespace ElasticsearchOutputPlugin
 
         public bool DeleteIndex(IIndexDeleteRequest request)
         {
-            var client = CreateClient(request.IndexerEndpoint);
+            var client = CreateClient(request);
             var existingIndex = Indices.Index(request.IndexName);
             if (existingIndex != null)
             {
@@ -90,17 +88,27 @@ namespace ElasticsearchOutputPlugin
 
         public bool IndexExists(SearchIndexer.Outputs.OutputPlugin.Requests.IIndexExistsRequest request)
         {
-            var client = CreateClient(request.IndexerEndpoint);
+            var client = CreateClient(request);
             var result = client.GetIndex(request.IndexName);
             Logger.LogInformation($"{result.Indices.Count} found for name {request.IndexName}");
             Logger.LogInformation($"{result.Indices.Count} found with that name");
             return result.Indices.Count > 0;
         }
 
-        private ElasticClient CreateClient(string endpoint)
+        private ElasticClient CreateClient(IIndexEndpoint endpointConfig)
         {
-            var node = new Uri(endpoint);
+            var node = new Uri(endpointConfig.IndexerEndpoint);
             var settings = new ConnectionSettings(node);
+
+            if (!string.IsNullOrEmpty(endpointConfig.UserName))
+            {
+                Logger.LogInformation("Using basic authentication");
+                settings.BasicAuthentication(endpointConfig.UserName, endpointConfig.Password);
+            } else
+            {
+                Logger.LogWarning("No authentication information");
+            }
+
             var client = new ElasticClient(settings);
             return client;
         }

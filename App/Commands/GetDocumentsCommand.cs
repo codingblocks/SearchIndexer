@@ -13,7 +13,11 @@ namespace SearchIndexer.App.Commands
         {
             [Option('f', "file", Required = true, HelpText = "File that contains enough meta data to get a set of documents")]
             public string FilePath { get; set; }
-        }
+            [Option('u', "username", Required = false, HelpText = "User name for authentication")]
+            public string UserName { get; set; }
+            [Option('p', "password", Required = false, HelpText = "Password for authentication")]
+            public string Password { get; set; }
+    }
 
         private IDocumentProvider DocumentProvider { get; }
         private ILogger<GetDocumentsCommand> Logger { get; }

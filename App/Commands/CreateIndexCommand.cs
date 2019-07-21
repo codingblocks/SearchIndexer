@@ -16,7 +16,12 @@ namespace SearchIndexer.App.Commands
             public string IndexName { get; set; }
             [Option('f', "file", Required = true, HelpText = "File that contains whatever metadata is necessary to create an index")]
             public string IndexDefinitionFilePath { get; set; }
-        }
+
+            [Option('u', "username", Required = false, HelpText = "User name for authentication")]
+            public string UserName { get; set; }
+            [Option('p', "password", Required = false, HelpText = "Password for authentication")]
+            public string Password { get; set; }
+    }
 
         private IIndexService IndexService { get; }
         private ILogger<GetDocumentsCommand> Logger { get; }

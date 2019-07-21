@@ -1,8 +1,7 @@
 ﻿namespace SearchIndexer.Outputs.OutputPlugin.Requests
 {
-    public interface IIndexExistsRequest
+    public interface IIndexExistsRequest : IIndexEndpoint
     {
-        string IndexerEndpoint { get; }
         string IndexName { get; }
     }
 }

@@ -2,7 +2,7 @@
   "profiles": {
     "App": {
       "commandName": "Project",
-      "commandLineArgs": "update-documents -f  C:\\Users\\me\\Projects\\qit-podcast-feed-loader\\app\\feeds.json -e \"http://localhost:9200\" -n podcasts"
+      "commandLineArgs": "create-index -e \"http://localhost:19200\" -n podcasts -f C:\\Users\\me\\Projects\\SearchIndexer\\Examples\\elastic-podcast-index-definition.json -u elastic -p test123"
     }
   }
 }

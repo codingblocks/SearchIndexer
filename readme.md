@@ -27,13 +27,14 @@ The easiest way to get started, is to fire up the example architecture. Check ou
 Settings that are specific to an input or output _should_ (TODO, for example: security) be managed via configuration settings - not passed in via command line
 
 ## Example usage:
+(Note: first you should copy the .env.example to .env)
 ```bash
 # information about the loading and indexer are done in configuration
-dotnet ./App/bin/Debug/netcoreapp2.2/App.dll create-index -e "http://localhost:9200" -n podcasts -f Examples\elastic-podcast-index-definition.json
-dotnet ./App/bin/Debug/netcoreapp2.2/App.dll delete-index -e "http://localhost:9200" -n podcasts
-dotnet ./App/bin/Debug/netcoreapp2.2/App.dll index-exists -e "http://localhost:9200" -n podcasts
-dotnet ./App/bin/Debug/netcoreapp2.2/App.dll get-documents -f Examples\podcast-feeds.json
-dotnet ./App/bin/Debug/netcoreapp2.2/App.dll update-documents -f  Examples\podcast-feeds.json -e "http://localhost:9200" -n podcasts
+dotnet ./App/bin/Debug/netcoreapp2.2/App.dll delete-index -e "http://localhost:19200" -n podcasts -u elastic -p test123
+dotnet ./App/bin/Debug/netcoreapp2.2/App.dll create-index -e "http://localhost:19200" -n podcasts -f Examples\elastic-podcast-index-definition.json -u elastic -p test123
+dotnet ./App/bin/Debug/netcoreapp2.2/App.dll index-exists -e "http://localhost:19200" -n podcasts -u elastic -p test123
+dotnet ./App/bin/Debug/netcoreapp2.2/App.dll get-documents -f Examples\podcast-feeds.json -u elastic -p test123
+dotnet ./App/bin/Debug/netcoreapp2.2/App.dll update-documents -f  Examples\podcast-feeds.json -e "http://localhost:19200" -n podcasts -u elastic -p test123
 ```
 ## Adding a new command
 

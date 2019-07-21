@@ -14,7 +14,11 @@ namespace SearchIndexer.App.Commands
             public string IndexerEndpoint { get; set; }
             [Option('n', "name", Required = true, HelpText = "Name of the index to delete")]
             public string IndexName { get; set; }
-        }
+            [Option('u', "username", Required = false, HelpText = "User name for authentication")]
+            public string UserName { get; set; }
+            [Option('p', "password", Required = false, HelpText = "Password for authentication")]
+            public string Password { get; set; }
+    }
 
         private IIndexService IndexService { get; }
         private ILogger<GetDocumentsCommand> Logger { get; }

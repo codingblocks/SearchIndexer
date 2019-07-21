@@ -1,46 +1,52 @@
 {
-  "mappings": {
-    "properties": {
-      "id": {
-        "type": "keyword"
-      },
-      "feed": {
-        "type": "keyword"
-      },
-      "podcast_title": {
-        "type": "text"
-      },
-      "episode_description": {
-        "type": "text"
-      },
-      "published": {
-        "type": "date"
-      },
-      "audio_url": {
-        "type": "keyword"
-      },
-      "episode_title": {
-        "type": "text"
-      },
-      "season": {
-        "type": "keyword"
-      },
-      "episode_number": {
-        "type": "keyword"
-      },
-      "episode_type": {
-        "type": "integer"
-      },
-      "episode_tags": {
-        "type": "keyword"
-      }
+    "mappings": {
+        "properties": {
+            "id": {
+                "type": "keyword"
+            },
+            "feed": {
+                "type": "keyword"
+            },
+            "podcast_title": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "episode_description": {
+                "type": "text"
+            },
+            "published": {
+                "type": "date"
+            },
+            "audio_url": {
+                "type": "keyword"
+            },
+            "episode_title": {
+                "type": "text"
+            },
+            "season": {
+                "type": "keyword"
+            },
+            "episode_number": {
+                "type": "keyword"
+            },
+            "episode_type": {
+                "type": "integer"
+            },
+            "episode_tags": {
+                "type": "keyword"
+            }
+        }
+    },
+    "settings": {
+        "index": {
+            "number_of_shards": 1,
+            "number_of_replicas": 1,
+            "refresh_interval": "300s"
+        }
     }
-  },
-  "settings": {
-    "index": {
-      "number_of_shards": 3,
-      "number_of_replicas": 2,
-      "refresh_interval": "30s"
-    }
-  }
 }
