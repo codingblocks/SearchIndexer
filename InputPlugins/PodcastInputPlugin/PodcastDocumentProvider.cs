@@ -105,9 +105,14 @@ namespace SearchIndexer.Inputs.PodcastInputPlugin
 
         private string GetAudioUrl(BaseFeedItem specificItem)
         {
-            if (specificItem is MediaRssFeedItem mediaItem)
+            if (specificItem is MediaRssFeedItem mediaRssItem)
             {
-                return mediaItem.Enclosure.Url;
+                return mediaRssItem.Enclosure.Url;
+            }
+
+            if (specificItem is Rss20FeedItem rss2Item)
+            {
+                return rss2Item.Enclosure.Url;
             }
 
             return specificItem.Link;

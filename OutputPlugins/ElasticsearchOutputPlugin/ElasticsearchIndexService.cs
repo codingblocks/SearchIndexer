@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Nest;
 using SearchIndexer.Outputs.OutputPlugin;
 using SearchIndexer.Outputs.OutputPlugin.Requests;
+using System.Linq;
 
 namespace ElasticsearchOutputPlugin
 {
@@ -19,19 +20,23 @@ namespace ElasticsearchOutputPlugin
         public bool AddOrUpdateDocuments<T>(IIndexUpdateRequest request, IEnumerable<T> documents) where T:class
         {
             var client = CreateClient(request);
+            var batchSize = 10000;
             var bulkAll = client.BulkAll(documents, b => b
                 .Index(request.IndexName) /* index */
                 .BackOffRetries(2)
                 .BackOffTime("30s")
+                .Timeout("300s")
                 .RefreshOnCompleted(true)
-                .MaxDegreeOfParallelism(4)
-                .Size(1000)
+                .MaxDegreeOfParallelism(8)
+                .Size(batchSize)
+                .RefreshOnCompleted(false)
             );
-
+            
             var waitHandle = new CountdownEvent(1);
+            Logger.LogInformation($"Sending {documents.Count()} documents");
             bulkAll.Subscribe(new BulkAllObserver(
-                onNext: (b) => { Console.Write("."); },
-                onError: (e) => { throw e; },
+                onNext: (b) => Logger.LogInformation($"{b.Items.Count} recieved"),
+                onError: (e) => { Logger.LogError(e.ToString()); waitHandle.Signal(); throw e; },
                 onCompleted: () => waitHandle.Signal()
             ));
 
